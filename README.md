@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Vulnerable CTF Lab
 
-First, run the development server:
+A deliberately vulnerable web application built with Next.js for pentesting practice.
+
+**WARNING: DO NOT DEPLOY THIS TO A PUBLIC SERVER WITHOUT AUTHENTICATION OR IP RESTRICTIONS. IT IS VULNERABLE BY DESIGN.**
+
+## Architecture
+- **Framework**: Next.js 14+ (App Router)
+- **Styling**: Vanilla CSS (Cyberpunk Theme)
+- **Database**: In-memory (resets on restart)
+- **Design**: CTF Challenges
+
+## Running Locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features / Targets
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Challenge | Type | Vulnerability |
+|-----------|------|---------------|
+| `Reflected XSS` | Client/DOM | `dangerouslySetInnerHTML` with `q` param. |
+| `Stored XSS` | Persistent | Comments API stores unsanitized HTML. |
+| `DOM XSS` | Client | `location.hash` into `innerHTML`. |
+| `IDOR` | API logic | `/api/users/[id]` lacks auth check. |
+| `SQL Injection` | Logic | `/api/login-db` logic bypass. |
+| `SSRF` | API | `/api/proxy` bypass blacklist. |
+| `JWT` | Crypto | `None` alg or weak secret `secret123`. |
+| `Open Redirect` | Logic | `/api/redirect` unvalidated. |
+| `CORS` | Config | `Access-Control-Allow-Origin: *` |
+| `Headers` | Config | Missing security headers, unsafe CSP. |
 
-## Learn More
+## Exploitation
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `SOLUTIONS.md` for flags and payloads.
