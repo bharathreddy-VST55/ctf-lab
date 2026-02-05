@@ -37,7 +37,7 @@ export default function DevilFruits() {
             </div>
 
             <div className="flag" id="flag">
-                OPS{DOM_XSS_IS_REAL}
+                {'OPS{DOM_XSS_IS_REAL}'}
             </div>
         </div>
     );

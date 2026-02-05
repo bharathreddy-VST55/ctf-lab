@@ -22,7 +22,7 @@ export default function Forum() {
 
     useEffect(() => {
         // Set a flag in cookies to be stolen
-        document.cookie = "secret_treasure=OPS{THE_ONE_PIECE_IS_IN_COOKIES}; path=/forum";
+        document.cookie = "secret_treasure='OPS{THE_ONE_PIECE_IS_IN_COOKIES}'; path=/forum";
         fetchPosts();
     }, []);
 

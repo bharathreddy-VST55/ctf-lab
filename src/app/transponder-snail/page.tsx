@@ -38,7 +38,7 @@ export default function TransponderSnail() {
             </div>
 
             <div className="card" style={{ marginTop: '1rem' }}>
-                <p>Flag: <code>OPS{BUSTER_CALL_INITIATED_CORS}</code></p>
+                <p>Flag: <code>{'OPS{BUSTER_CALL_INITIATED_CORS}'}</code></p>
             </div>
         </div>
     )

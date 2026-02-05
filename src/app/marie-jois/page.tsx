@@ -37,7 +37,7 @@ export default async function MarieJois() {
 
                 {authorized && (
                     <div className="flag visible" style={{ marginTop: '2rem' }}>
-                        Flag: OPS{THE_VOID_CENTURY_REVEALED}
+                        {'Flag: OPS{THE_VOID_CENTURY_REVEALED}'}
                     </div>
                 )}
             </div>
