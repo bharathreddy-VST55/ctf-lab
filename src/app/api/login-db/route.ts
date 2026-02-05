@@ -11,7 +11,7 @@ export async function POST(request: Request) {
         // "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
 
         // Check if input mimics SQL injection
-        const user = dangerousQuery(username, "");
+        const user = dangerousQuery(username);
 
         if (user) {
             // If we found a user via injection (e.g. admin)

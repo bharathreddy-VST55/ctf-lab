@@ -5,7 +5,7 @@ export type User = {
     id: number;
     username: string;
     password?: string;
-    role: 'pirate' | 'marine' | 'gorosei' | 'legend';
+    role: 'pirate' | 'marine' | 'gorosei' | 'legend' | 'admin';
     bounty?: string;
     devil_fruit?: string;
     secret_ambition?: string;
@@ -21,7 +21,7 @@ export type Post = {
 
 // Initial Data
 export const USERS: User[] = [
-    { id: 1, username: 'Imu', password: 'the_empty_throne_is_mine', role: 'gorosei', bounty: 'Unknown', devil_fruit: 'Unknown', secret_ambition: 'OPS{THE_ONE_PIECE_IS_REAL_BUT_HIDDEN}', image: '/images/imu.jpg' },
+    { id: 1, username: 'Imu', password: 'the_empty_throne_is_mine', role: 'admin', bounty: 'Unknown', devil_fruit: 'Unknown', secret_ambition: 'OPS{THE_ONE_PIECE_IS_REAL_BUT_HIDDEN}', image: '/images/imu.jpg' },
     { id: 2, username: 'Monkey D. Luffy', password: 'meat', role: 'pirate', bounty: '3,000,000,000', devil_fruit: 'Hito Hito no Mi, Model: Nika', secret_ambition: 'Become King of the Pirates!', image: '/images/luffy.jpg' },
     { id: 4, username: 'Sakazuki (Akainu)', password: 'absolute_justice', role: 'marine', bounty: 'N/A', devil_fruit: 'Magu Magu no Mi', secret_ambition: 'Eradicate all pirates.', image: '/images/akainu.jpg' },
     { id: 16, username: 'Gol D. Roger', role: 'legend', bounty: '5,564,800,000', devil_fruit: 'None', secret_ambition: 'Turn the world upside down', image: '/images/roger.jpg' },
@@ -65,7 +65,7 @@ export const RECRUITABLE_PIRATES = [
 
 export function dangerousQuery(username: string): User | null {
     if (username.toLowerCase().includes("' or '1'='1") || username.toLowerCase().includes("' or 1=1")) {
-        return { id: 1, username: 'Imu', role: 'gorosei', image: '/images/imu.jpg' } as User;
+        return { id: 1, username: 'Imu', role: 'admin', image: '/images/imu.jpg' } as User;
     }
     return USERS.find(u => u.username.toLowerCase() === username.toLowerCase()) || null;
 }

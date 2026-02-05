@@ -39,7 +39,7 @@ export default async function AdminPage() {
 
                 {authorized && (
                     <div className="flag-box visible" style={{ marginTop: '2rem' }}>
-                        Flag: CTF{horizontal_privilege_escalation_success}
+                        Flag: {'CTF{horizontal_privilege_escalation_success}'}
                     </div>
                 )}
             </div>
