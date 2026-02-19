@@ -1,0 +1,29 @@
+id: vulnlab-open-redirect
+
+info:
+  name: VulnLab – Open Redirect (Simulated)
+  author: vulnlab-edu
+  severity: medium
+  description: |
+    Detects the open redirect simulation on /redirect?next=
+    by checking for an unvalidated Location header in the 302 response.
+    THIS IS A SIMULATED VULNERABILITY on an isolated training lab.
+  tags: redirect,logic,vulnlab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/redirect?next=https://evil-example.com/phishing"
+
+    redirects: false
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: header
+        words:
+          - "Location: https://evil-example.com/phishing"
+
+      - type: status
+        status:
+          - 302

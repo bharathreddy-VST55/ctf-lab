@@ -1,0 +1,74 @@
+# =============================================================================
+#  VulnLab – Docker Compose
+#  INTENTIONALLY VULNERABLE – FOR EDUCATIONAL USE ONLY
+#
+#  Safety constraints enforced here:
+#  ✅  Bound ONLY to 127.0.0.1 (localhost)  – never 0.0.0.0
+#  ✅  No privileged mode
+#  ✅  Read-only root filesystem
+#  ✅  Dropped all Linux capabilities
+#  ✅  No host mounts that expose real system paths
+#  ✅  Isolated bridge network (no external reach from container)
+# =============================================================================
+
+services:
+  vulnlab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: vulnlab
+
+    # ── CRITICAL: bind ONLY to localhost ──────────────────────────────────
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    # ── Security hardening ─────────────────────────────────────────────────
+    read_only: true # container filesystem is read-only
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL # drop every Linux capability
+    tmpfs:
+      - /tmp:size=10m # gunicorn needs a writable /tmp
+
+    # ── Resource limits (prevent DoS on the host) ──────────────────────────
+    mem_limit: 256m
+    cpus: "0.5"
+
+    # ── Environment ────────────────────────────────────────────────────────
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - LAB_MODE=educational
+
+    # ── Labels ─────────────────────────────────────────────────────────────
+    labels:
+      - "edu.vulnlab.warning=INTENTIONALLY VULNERABLE – FOR EDUCATIONAL USE ONLY"
+      - "edu.vulnlab.version=1.0.0"
+
+    # ── Restart policy ─────────────────────────────────────────────────────
+    restart: unless-stopped
+
+    # ── Health check ───────────────────────────────────────────────────────
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')" ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+    # ── Isolated network ───────────────────────────────────────────────────
+    networks:
+      - vulnlab_net
+
+# =============================================================================
+#  Network – isolated bridge, no external routing
+# =============================================================================
+networks:
+  vulnlab_net:
+    driver: bridge
+    internal: false # set true to fully cut internet from container
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24

@@ -1,0 +1,28 @@
+id: vulnlab-ssrf-metadata
+
+info:
+  name: VulnLab – SSRF AWS Metadata Simulation
+  author: vulnlab-edu
+  severity: critical
+  description: |
+    Detects SSRF simulation on /fetch?url= targeting the AWS metadata endpoint.
+    Returns a fake INSTANCE_ID and IAM-role credentials.
+    THIS IS A SIMULATED VULNERABILITY – no real HTTP requests are made.
+  tags: ssrf,cloud,aws,vulnlab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/fetch?url=http://169.254.169.254/latest/meta-data/"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "FAKE_INSTANCE_ID"
+          - "FAKE_ACCESS_KEY_ID_META"
+        condition: or
+
+      - type: status
+        status:
+          - 200

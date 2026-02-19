@@ -1,0 +1,29 @@
+id: vulnlab-sqli-error
+
+info:
+  name: VulnLab – SQL Injection Error-Based (Simulated)
+  author: vulnlab-edu
+  severity: critical
+  description: |
+    Detects the SQL Injection simulation on /search?q= by checking for
+    a MySQL error message in the response body.
+    THIS IS A SIMULATED VULNERABILITY – the error message is hardcoded.
+  tags: sqli,injection,vulnlab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/search?q='"
+      - "{{BaseURL}}/search?q=' OR 1=1--"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "SQL syntax error"
+          - "SQLSTATE"
+        condition: or
+
+      - type: status
+        status:
+          - 200

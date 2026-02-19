@@ -1,0 +1,30 @@
+id: vulnlab-env-exposure
+
+info:
+  name: VulnLab – Exposed .env File (Simulated)
+  author: vulnlab-edu
+  severity: critical
+  description: |
+    Detects the intentionally exposed .env file in VulnLab.
+    Returns dummy AWS and DB credentials for training purposes.
+    THIS IS A SIMULATED VULNERABILITY – no real credentials are exposed.
+  tags: exposure,env,misconfiguration,vulnlab
+  reference:
+    - https://owasp.org/www-project-top-ten/
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/.env"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "FAKE_SECRET_000"
+          - "DUMMY_DB_PASS"
+        condition: or
+
+      - type: status
+        status:
+          - 200

