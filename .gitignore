@@ -1,57 +1,50 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# ── Node (matches at any depth) ───────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.pnp
+frontend/.pnp.*
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# ── Backend (Python) ───────────────────────────────────────────
+backend/__pycache__/
+backend/*.pyc
+backend/.venv/
+backend/venv/
 
-# testing
-/coverage
+# ── Env files ──────────────────────────────────────────────────
+.env
+.env.*
+frontend/.env
+frontend/.env.*
+backend/.env
+backend/.env.*
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# ─── LOCAL SCAN TOOLS (not needed on Vercel) ─────────────────
+# ── Large / local-only scan tools ──────────────────────────────
 nuclei_tool/
-nuclei.zip
 nuclei*.txt
 nuclei*.json
-nuclei_results*
-nuclei_new_scan*
+nuclei.zip
 live-scan-results.json
 live-report/
 results.json
-*.hprof
 
-# Large binaries
+# ── Build artefacts ────────────────────────────────────────────
+*.hprof
+*.tsbuildinfo
+next-env.d.ts
+
+# ── Misc ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.pem
+.vercel
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Large binaries (never commit) ──────────────────────────────
 *.exe
 *.zip
+*.tar.gz
