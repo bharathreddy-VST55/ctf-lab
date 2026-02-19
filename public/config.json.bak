@@ -1,9 +1,0 @@
-
-{
-  "database": {
-    "host": "localhost",
-    "password": "super_secret_db_password"
-  },
-  "aws_key": "AKIAIOSFODNN7EXAMPLE",
-  "flag": "CTF{exposed_config_files_are_common}"
-}
