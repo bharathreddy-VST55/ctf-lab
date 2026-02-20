@@ -2,9 +2,10 @@ import Link from 'next/link';
 import Slideshow from './components/Slideshow';
 import { STRAW_HATS } from '@/lib/db';
 
-export default function Home({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default async function Home({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   // LFI VULNERABILITY SIMULATION ON ROOT
-  const file = searchParams?.file;
+  const resolvedParams = await searchParams;
+  const file = resolvedParams?.file;
   if (typeof file === 'string' && (
     file === '/etc/passwd' ||
     file === '../../etc/passwd' ||
