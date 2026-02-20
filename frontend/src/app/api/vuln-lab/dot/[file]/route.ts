@@ -157,9 +157,9 @@ machine grand-library.internal
 
 export async function GET(
     _request: Request,
-    { params }: { params: { file: string } }
+    { params }: { params: Promise<{ file: string }> }
 ) {
-    const file = params.file;
+    const { file } = await params;
     const data = FAKE_RESPONSES[file];
     if (!data) {
         return NextResponse.json({ error: 'Not found' }, { status: 404 });
